@@ -4,7 +4,7 @@ cytoscape-expand-collapse
 
 ## Description
 
-This extension provides an interface to expand/collapse nodes for better management of complexity of Cytoscape.js compound graphs, distributed under [The MIT License](https://opensource.org/licenses/MIT). 
+This extension provides an interface to expand/collapse nodes for better management of complexity of Cytoscape.js compound graphs, distributed under [The MIT License](https://opensource.org/licenses/MIT).
 
 ![](https://github.com/iVis-at-Bilkent/cytoscape.js-expand-collapse/blob/master/expand-collapse-extension-demo.gif)
 
@@ -14,14 +14,14 @@ U. Dogrusoz , A. Karacelik, I. Safarli, H. Balci, L. Dervishi, and M.C. Siper, "
 
 ## Demo
 
-Click [here](http://ivis-at-bilkent.github.io/cytoscape.js-expand-collapse/demo.html) (no undo) or [here](http://ivis-at-bilkent.github.io/cytoscape.js-expand-collapse/demo-undoable.html) (undoable) or [here](http://ivis-at-bilkent.github.io/cytoscape.js-expand-collapse/demo-compounds-collapsed.html) (compounds initially collapsed) for a demo.
+Click [here](https://raw.githack.com/iVis-at-Bilkent/cytoscape.js-expand-collapse/unstable/demo.html) (no undo and with custom cue image) or [here](https://raw.githack.com/iVis-at-Bilkent/cytoscape.js-expand-collapse/unstable/demo-undoable.html) (undoable) or [here](https://raw.githack.com/iVis-at-Bilkent/cytoscape.js-expand-collapse/unstable/demo-compounds-collapsed.html) (compounds initially collapsed) for a demo.
 
 ## API
 
 * Note that compounds are nodes.
 
 `cy.expandCollapse(options)`
-To initialize/set options whenever you want.
+To initialize the extension with given options.
 
 `var api = cy.expandCollapse('get')`
 To get the extension instance after initialization.
@@ -64,6 +64,9 @@ Resets the options to the given parameter.
 `api.setOption(name, value)`
 Sets the value of the option given by the name to the given value.
 
+`api.extendOptions(options)`
+Extend the current options with the given options.
+
 `api.getCollapsedChildren(node)`
 Get the children of the given collapsed node which are removed during collapse operation
 
@@ -75,6 +78,15 @@ Get collapsed children of all collapsed nodes recursively. Returned value includ
 
 `api.clearVisualCue()`
 Forces the visual cue to be cleared. It is to be called in extreme cases.
+
+`api.enableCue()`
+Enable rendering of visual cue.
+
+`api.disableCue()`
+Disable rendering of visual cue.
+
+`api.getParent(nodeId)`
+Get the parent of a node given its node id. Useful to reach parent of a node removed because of collapse operation.
 
 ## Events
 Notice that following events are performed for *each* node that is collapsed/expanded. Also, notice that any post-processing layout is performed *after* the event.
@@ -95,6 +107,7 @@ Notice that following events are performed for *each* node that is collapsed/exp
       // recommended usage: use cose-bilkent layout with randomize: false to preserve mental map upon expand/collapse
       fisheye: true, // whether to perform fisheye view after expand/collapse you can specify a function too
       animate: true, // whether to animate on drawing changes you can specify a function too
+      animationDuration: 1000, // when animate is true, the duration in milliseconds of the animation
       ready: function () { }, // callback when expand/collapse initialized
       undoable: true, // and if undoRedoExtension exists,
 
@@ -107,6 +120,7 @@ Notice that following events are performed for *each* node that is collapsed/exp
       expandCollapseCueSensitivity: 1 // sensitivity of expand-collapse cues
     };
 ```
+*Note that this extension creates a new canvas on the viewport with z-index value '999' to render the visual cue. If your application uses any other canvas, please arrange its z-index value accordingly.*
 
 ## Default Undo/Redo Actions
 `ur.do("collapse", { nodes: eles, options: opts)` Equivalent of eles.collapse(opts)
@@ -128,8 +142,7 @@ Notice that following events are performed for *each* node that is collapsed/exp
 
 ## Dependencies
 
- * Cytoscape.js ^1.7.0
- * jQuery ^1.7.0 || ^2.0.0 || ^3.0.0
+ * Cytoscape.js ^3.3.0
  * cytoscape-undo-redo.js(optional) ^1.0.1
  * cytoscape-cose-bilkent.js(optional/suggested for layout after expand/collapse) ^1.3.6
 
@@ -146,10 +159,9 @@ Download the library:
 CommonJS:
 ```js
 var cytoscape = require('cytoscape');
-var jquery = require('jquery');
 var expandCollapse = require('cytoscape-expand-collapse');
 
-expandCollapse( cytoscape, jquery ); // register extension
+expandCollapse( cytoscape ); // register extension
 ```
 
 AMD:
@@ -174,7 +186,7 @@ This project is set up to automatically be published to npm and bower.  To publi
 ## Team
 
   * [Metin Can Siper](https://github.com/metincansiper), [Alper Karacelik](https://github.com/alperkaracelik), [Ugur Dogrusoz](https://github.com/ugurdogrusoz) of [i-Vis at Bilkent University](http://www.cs.bilkent.edu.tr/~ivis)
-  
+
 ## Alumni
 
   * [Ilkin Safarli](https://github.com/kinimesi), [Selim Firat Yilmaz](https://github.com/mrsfy)
